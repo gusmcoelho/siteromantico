@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  
+  <meta name="theme-color" content="#1a001a" />
+  
+  <meta property="og:title" content="Convite Romântico Especial 💕" />
+  <meta property="og:description" content="Abre esse link! Tenho uma pergunta especial pra você... ✨" />
+  <meta property="og:image" content="fotos/favicon.png" />
+  <meta property="og:type" content="website" />
+
+  <title id="docTitle">Convite Romântico Especial 💕</title>
+  <link id="dynamicFavicon" rel="icon" type="image/png" href="fotos/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- CDN LZString para compressão de URL & QRCode generator -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      /* Tema padrão: Pink Romance */
+      --bg-main: #1a001a;
+      --bg-radial: radial-gradient(circle at 50% 50%, #3d0030 0%, #1a001a 80%);
+      --pink: #f48fb1;
+      --pink-deep: #e91e8c;
+      --rose: #c2185b;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --card-border: rgba(255, 180, 210, 0.2);
+      --glow: rgba(233, 30, 140, 0.15);
+      --glow-strong: rgba(233, 30, 140, 0.45);
+      --btn-grad: linear-gradient(135deg, #e91e8c, #c2185b);
+    }
+
+    /* Temas selecionáveis */
+    body.theme-red {
+      --bg-main: #1a0005;
+      --bg-radial: radial-gradient(circle at 50% 50%, #3d000a 0%, #1a0005 80%);
+      --pink: #ff8a80;
+      --pink-deep: #ff1744;
+      --rose: #d50000;
+      --card-border: rgba(255, 128, 128, 0.25);
+      --glow: rgba(255, 23, 68, 0.18);
+      --glow-strong: rgba(255, 23, 68, 0.5);
+      --btn-grad: linear-gradient(135deg, #ff1744, #b71c1c);
+    }
+
+    body.theme-purple {
+      --bg-main: #0d001a;
+      --bg-radial: radial-gradient(circle at 50% 50%, #29004d 0%, #0d001a 80%);
+      --pink: #e1bee7;
+      --pink-deep: #ab47bc;
+      --rose: #7b1fa2;
+      --card-border: rgba(225, 190, 231, 0.22);
+      --glow: rgba(171, 71, 188, 0.18);
+      --glow-strong: rgba(171, 71, 188, 0.5);
+      --btn-grad: linear-gradient(135deg, #ab47bc, #4a148c);
+    }
+
+    body.theme-dark {
+      --bg-main: #0a0a14;
+      --bg-radial: radial-gradient(circle at 50% 50%, #161633 0%, #0a0a14 80%);
+      --pink: #b388ff;
+      --pink-deep: #7c4dff;
+      --rose: #651fff;
+      --card-border: rgba(179, 136, 255, 0.22);
+      --glow: rgba(124, 77, 255, 0.18);
+      --glow-strong: rgba(124, 77, 255, 0.5);
+      --btn-grad: linear-gradient(135deg, #7c4dff, #304ffe);
+    }
+
+    body.theme-emerald {
+      --bg-main: #001a10;
+      --bg-radial: radial-gradient(circle at 50% 50%, #003d28 0%, #001a10 80%);
+      --pink: #a7ffeb;
+      --pink-deep: #00e676;
+      --rose: #00a152;
+      --card-border: rgba(167, 255, 235, 0.22);
+      --glow: rgba(0, 230, 118, 0.18);
+      --glow-strong: rgba(0, 230, 118, 0.5);
+      --btn-grad: linear-gradient(135deg, #00e676, #008744);
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      min-height: 100dvh;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-main);
+      background-image: var(--bg-radial);
+      color: #fff;
+      overflow-x: hidden;
+      overscroll-behavior: none; 
+      transition: background 0.4s ease;
+    }
+
+    /* ===== FLOATING HEARTS ===== */
+    .hearts-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .heart-particle {
+      position: absolute;
+      bottom: -50px;
+      opacity: 0;
+      animation: floatHeart linear infinite;
+    }
+
+    @keyframes floatHeart {
+      0% {
+        transform: translateY(0) rotate(0deg) scale(0.8);
+        opacity: 0;
+      }
+      10% { opacity: 0.5; }
+      90% { opacity: 0.25; }
+      100% {
+        transform: translateY(-110vh) rotate(360deg) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    /* ===== SCREENS ===== */
+    .screen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 20px 16px;
+      padding-top: calc(20px + env(safe-area-inset-top));
+      padding-bottom: calc(20px + env(safe-area-inset-bottom));
+      z-index: 10;
+    }
+
+    .screen.active {
+      display: flex;
+      animation: screenIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes screenIn {
+      from { opacity: 0; transform: scale(0.9) translateY(20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* ===== CARD ===== */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 28px;
+      padding: 36px 24px 32px;
+      width: 100%;
+      max-width: 440px;
+      text-align: center;
+      box-shadow:
+        0 0 50px var(--glow),
+        0 0 100px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      position: relative;
+    }
+
+    /* ===== STICKER / FOTO ===== */
+    .sticker-container {
+      position: relative;
+      margin: 0 auto 14px;
+      width: 150px;
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sticker {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 20px;
+      animation: bounce 2.5s ease-in-out infinite;
+      filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.4));
+    }
+
+    .sticker-photo {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid var(--pink);
+      box-shadow: 0 0 25px var(--glow-strong);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0) rotate(-3deg); }
+      50% { transform: translateY(-10px) rotate(3deg); }
+    }
+
+    .sticker-shake {
+      animation: shake 0.7s ease 0.2s both, bounce 2.5s ease-in-out 1s infinite;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: rotate(0deg); }
+      20% { transform: rotate(-10deg); }
+      40% { transform: rotate(10deg); }
+      60% { transform: rotate(-6deg); }
+      80% { transform: rotate(6deg); }
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: #fff;
+      line-height: 1.3;
+      margin-bottom: 8px;
+      text-shadow: 0 0 30px var(--glow-strong);
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--pink);
+      word-break: break-word;
+    }
+
+    .sub {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.65);
+      margin-bottom: 26px;
+      line-height: 1.5;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.02rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 16px 30px;
+      min-height: 52px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      text-transform: uppercase;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: var(--btn-grad);
+      color: #fff;
+      box-shadow: 0 6px 24px var(--glow-strong);
+    }
+
+    .btn-primary:active { transform: scale(0.96); }
+    .btn-full { width: 100%; }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    .btn-secondary:hover { background: rgba(255, 255, 255, 0.15); }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    #btn-no {
+      position: static;
+      z-index: 9999;
+      transition: none;
+      padding: 16px 26px;
+      min-height: 52px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      border-radius: 50px;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.07);
+      color: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      text-transform: uppercase;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      white-space: nowrap;
+    }
+
+    /* ===== SCREEN 3 – DATA E HORA ===== */
+    .card-emoji {
+      font-size: 4rem;
+      display: block;
+      margin-bottom: 12px;
+      animation: bounce 2.5s ease-in-out infinite;
+    }
+
+    .datetime-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .field-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 6px;
+      display: block;
+      text-align: left;
+    }
+
+    .field-group { text-align: left; }
+
+    input[type="date"],
+    input[type="time"],
+    input[type="text"],
+    input[type="tel"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.98rem;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--pink-deep);
+      box-shadow: 0 0 0 3px var(--glow);
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator,
+    input[type="time"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.8) sepia(1) saturate(3) hue-rotate(290deg);
+      width: 22px;
+      height: 22px;
+      cursor: pointer;
+    }
+
+    .error-msg {
+      color: #ff6b9d;
+      font-size: 0.85rem;
+      margin-bottom: 14px;
+      min-height: 20px;
+      text-align: left;
+    }
+
+    /* ===== SCREEN 4 – ATIVIDADES ===== */
+    .activities-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-bottom: 18px;
+      max-height: 260px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .activities-list::-webkit-scrollbar {
+      width: 5px;
+    }
+    .activities-list::-webkit-scrollbar-thumb {
+      background: var(--card-border);
+      border-radius: 10px;
+    }
+
+    .activity-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid var(--card-border);
+      border-radius: 14px;
+      padding: 12px 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      user-select: none;
+      transition: background 0.15s, border-color 0.15s, transform 0.12s;
+    }
+
+    .activity-card:active { transform: scale(0.97); }
+
+    .activity-card.selected {
+      background: rgba(233, 30, 140, 0.17);
+      border-color: var(--pink-deep);
+      box-shadow: 0 0 16px var(--glow);
+    }
+
+    .activity-card .act-emoji { font-size: 1.85rem; }
+    .activity-card .act-name { font-weight: 600; color: #fff; font-size: 0.96rem; text-align: left; }
+
+    /* ===== SCREEN 5 – FINAL ===== */
+    .final-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      color: #fff;
+      margin-bottom: 6px;
+      text-shadow: 0 0 36px var(--glow-strong);
+    }
+
+    .final-sub {
+      font-size: 0.92rem;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 20px;
+    }
+
+    .final-details {
+      background: rgba(233, 30, 140, 0.1);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 18px;
+      text-align: left;
+    }
+
+    .detail-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      margin-bottom: 12px;
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+
+    .detail-row:last-child { margin-bottom: 0; }
+    .detail-row .d-icon { font-size: 1.6rem; flex-shrink: 0; margin-top: 1px; }
+    .detail-row strong { color: var(--pink); }
+
+    .btn-whatsapp {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      margin-top: 18px;
+      padding: 18px 24px;
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 6px 24px rgba(37, 211, 102, 0.4);
+      animation: waPulse 1.8s ease-in-out infinite;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    .btn-whatsapp:active { transform: scale(0.96); }
+
+    @keyframes waPulse {
+      0%, 100% { box-shadow: 0 6px 24px rgba(37, 211, 102, 0.4); }
+      50% { box-shadow: 0 6px 36px rgba(37, 211, 102, 0.7); transform: scale(1.02); }
+    }
+
+
+
+    /* ===== ESTÚDIO DE CRIAÇÃO (FORMULÁRIO NA RAIZ) ===== */
+    .studio-container {
+      max-width: 680px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 30px 16px 60px;
+      position: relative;
+      z-index: 20;
+    }
+
+    .studio-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .studio-header h1 {
+      font-size: 2.2rem;
+      margin-bottom: 8px;
+    }
+
+    .studio-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--card-border);
+      border-radius: 30px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 12px;
+    }
+
+    .studio-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+      scrollbar-width: none;
+    }
+    .studio-tabs::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      padding: 10px 18px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--card-border);
+      border-radius: 30px;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tab-btn.active {
+      background: var(--pink-deep);
+      border-color: var(--pink);
+      color: #fff;
+      box-shadow: 0 4px 15px var(--glow);
+    }
+
+    .tab-icon-img {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      object-fit: cover;
+      filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.3));
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .tab-content {
+      display: none;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 0 40px var(--glow);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active { display: block; }
+
+    .form-row {
+      margin-bottom: 18px;
+    }
+
+    .form-row:last-child { margin-bottom: 0; }
+
+    .form-row label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--pink);
+      margin-bottom: 8px;
+    }
+
+    .form-row .help-text {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 4px;
+    }
+
+    .themes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .theme-opt {
+      padding: 12px 8px;
+      border-radius: 16px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      text-align: center;
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.05);
+      transition: all 0.2s;
+    }
+
+    .theme-opt.selected {
+      border-color: #fff;
+      box-shadow: 0 0 15px var(--glow-strong);
+      transform: scale(1.03);
+    }
+
+    .theme-pink { background: linear-gradient(135deg, #3d0030, #e91e8c); }
+    .theme-red { background: linear-gradient(135deg, #3d000a, #ff1744); }
+    .theme-purple { background: linear-gradient(135deg, #29004d, #ab47bc); }
+    .theme-dark { background: linear-gradient(135deg, #161633, #7c4dff); }
+    .theme-emerald { background: linear-gradient(135deg, #003d28, #00e676); }
+
+    /* Builder Atividades */
+    .act-builder-item {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .act-builder-item input[type="text"]:first-child { width: 75px; text-align: center; font-size: 1.6rem; }
+    .act-builder-item input[type="text"]:nth-child(2) { flex: 1; }
+    .btn-remove-act {
+      background: rgba(255, 82, 82, 0.2);
+      border: 1px solid rgba(255, 82, 82, 0.4);
+      color: #ff5252;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    /* Modal Preview & Share */
+    .share-box {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 16px;
+      margin-top: 16px;
+      text-align: center;
+    }
+
+    .url-input-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      margin-bottom: 16px;
+    }
+
+    .url-input-group input {
+      font-family: monospace;
+      font-size: 0.85rem;
+    }
+
+    #qrcode-canvas {
+      display: flex;
+      justify-content: center;
+      margin: 16px 0;
+      background: #fff;
+      padding: 12px;
+      border-radius: 16px;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .photo-upload-preview {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .photo-preview-img {
+      width: 54px;
+      height: 54px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 1px solid var(--card-border);
+      background: rgba(255,255,255,0.1);
+    }
+
+    /* Top bar no modo invite para voltar ao criador */
+    .top-creator-bar {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      z-index: 1000;
+    }
+
+    .btn-edit-mode {
+      padding: 8px 14px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(10px);
+      border-radius: 30px;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-edit-mode:hover { background: var(--pink-deep); color: #fff; }
+
+    @media (min-width: 640px) {
+      .card { max-width: 480px; padding: 44px 36px 40px; }
+      h1 { font-size: 2.1rem; }
+      .sticker-container { width: 170px; height: 170px; }
+      .sticker-photo { width: 160px; height: 160px; }
+      .activity-card { padding: 14px 18px; }
+      .activity-card .act-emoji { font-size: 1.6rem; }
+      .activity-card .act-name { font-size: 1rem; }
+      .btn { font-size: 1.08rem; padding: 18px 34px; }
+    }
+
+    .sparkle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 999;
+      animation: sparkleAnim 0.9s ease forwards;
+    }
+
+    @keyframes sparkleAnim {
+      0% { opacity: 1; transform: scale(0.5) translateY(0); }
+      100% { opacity: 0; transform: scale(1.8) translateY(-80px); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="hearts-bg" id="heartsBg"></div>
+
+  <!-- Botão flutuante para voltar ao criador se estiver visualizando um convite -->
+  <div class="top-creator-bar" id="topCreatorBar" style="display:none;">
+    <button class="btn-edit-mode" onclick="openStudioMode()">
+      ✏️ Criar o Seu Próprio Convite
+    </button>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- MODO 1: ESTÚDIO DE CRIAÇÃO (FORMULÁRIO NA RAIZ)           -->
+  <!-- ========================================================= -->
+  <div class="studio-container" id="studioContainer">
+    <div class="studio-header">
+      <span class="studio-badge">✨ Gerador Romântico</span>
+      <h1>Crie seu Convite Personalizado</h1>
+      <p class="sub">Personalize textos, fotos, passeios e o botão engraçado. Depois é só copiar o link e mandar pro seu amor! 💕</p>
+    </div>
+
+    <div class="studio-tabs">
+      <button class="tab-btn active" onclick="switchTab('tab-couple', event)">
+        <img src="fotos/tab_couple.png" alt="O Casal" class="tab-icon-img" />
+        <span>1. O Casal & Fotos</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('tab-activities', event)">
+        <img src="fotos/tab_activities.png" alt="Passeios" class="tab-icon-img" />
+        <span>2. Passeios</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('tab-share', event)">
+        <img src="fotos/tab_share.png" alt="Gerar Link" class="tab-icon-img" />
+        <span>3. Gerar Link</span>
+      </button>
+    </div>
+
+    <!-- TAB 1: O CASAL -->
+    <div class="tab-content active" id="tab-couple">
+      <div class="form-row">
+        <label>Nome da Pessoa Amada</label>
+        <input type="text" id="cfg-name" value="" placeholder="Ex: Beatriz, Kauã, Amor..." />
+        <div class="help-text">Substitui o nome em todas as telas do convite.</div>
+      </div>
+
+      <div class="form-row">
+        <label>Seu Nome / Apelido</label>
+        <input type="text" id="cfg-sender" value="" placeholder="Ex: Seu Amor, Gu..." />
+      </div>
+
+      <div class="form-row">
+        <label>WhatsApp para receber a confirmação (com DDD)</label>
+        <input type="tel" id="cfg-phone" value="" placeholder="Ex: 5511999999999 (apenas números)" />
+        <div class="help-text">Quando a pessoa aceitar e escolher data/atividades, você receberá a mensagem direta no seu Whats!</div>
+      </div>
+
+      <div class="form-row">
+        <label>Pergunta Inicial (Tela 1)</label>
+        <input type="text" id="cfg-title1" value="ei... {nome}, bora num date?" placeholder="Use {nome} para incluir o nome dela(e)" />
+      </div>
+
+      <div class="form-row">
+        <label>Subtítulo da Pergunta (Tela 1)</label>
+        <input type="text" id="cfg-sub1" value="(tô perguntando sério 🥺)" />
+      </div>
+
+      <div class="form-row" style="margin-top:20px; border-top:1px solid var(--card-border); padding-top:16px;">
+        <label>Tema de Cores</label>
+        <div class="themes-grid">
+          <div class="theme-opt theme-pink selected" onclick="selectTheme('pink')">Rosa Amante</div>
+          <div class="theme-opt theme-red" onclick="selectTheme('red')">Vermelho Paixão</div>
+          <div class="theme-opt theme-purple" onclick="selectTheme('purple')">Roxo Cyber</div>
+          <div class="theme-opt theme-dark" onclick="selectTheme('dark')">Noite Estrelada</div>
+          <div class="theme-opt theme-emerald" onclick="selectTheme('emerald')">Verde Esmeralda</div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label>Foto da Tela Inicial (Opcional)</label>
+        <input type="file" id="cfg-imgInitialFile" accept="image/*" onchange="handleImageUpload(this, 'imgInitial')" />
+        <div class="photo-upload-preview">
+          <img id="preview-imgInitial" src="fotos/emoji_sad.png" class="photo-preview-img" alt="" />
+          <span class="help-text">Deixe em branco para usar o sticker de emoji triste padrão.</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label>Foto da Tela Final (Opcional)</label>
+        <input type="file" id="cfg-imgFinalFile" accept="image/*" onchange="handleImageUpload(this, 'imgFinal')" />
+        <div class="photo-upload-preview">
+          <img id="preview-imgFinal" src="fotos/lorax.png" class="photo-preview-img" alt="" />
+          <span class="help-text">Deixe em branco para usar o sticker fofo do Lorax.</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-full" style="margin-top:14px;" onclick="switchTabDirect('tab-activities')">Próximo: Escolha dos Passeios →</button>
+    </div>
+
+    <!-- TAB 2: PASSEIOS DO DATE -->
+    <div class="tab-content" id="tab-activities">
+      <div class="presets-bar" style="display:flex; gap:6px; overflow-x:auto; padding-bottom:10px; margin-bottom:14px; scrollbar-width:none;">
+        <span style="font-size:0.8rem; font-weight:bold; color:var(--pink); align-self:center; white-space:nowrap; margin-right:4px;">Ideias de Passeios:</span>
+        <button class="btn btn-secondary" style="padding:6px 12px; min-height:auto; font-size:0.78rem;" onclick="applyPreset('movies')">Filme & Mequi</button>
+        <button class="btn btn-secondary" style="padding:6px 12px; min-height:auto; font-size:0.78rem;" onclick="applyPreset('food')">Rodízio & Comilança</button>
+        <button class="btn btn-secondary" style="padding:6px 12px; min-height:auto; font-size:0.78rem;" onclick="applyPreset('drive')">Rolezinho Noturno</button>
+        <button class="btn btn-secondary" style="padding:6px 12px; min-height:auto; font-size:0.78rem;" onclick="applyPreset('geek')">Gamer & Pijama</button>
+        <button class="btn btn-secondary" style="padding:6px 12px; min-height:auto; font-size:0.78rem;" onclick="applyPreset('nature')">Praia & Cachoeira</button>
+      </div>
+
+      <div class="form-row">
+        <label>Lista de Passeios do Date</label>
+        <div class="help-text" style="margin-bottom:12px;">Escolha os emojis e nomes dos passeios para seu amor selecionar:</div>
+        <div id="activitiesBuilderList"></div>
+        <button class="btn btn-secondary btn-full" style="margin-top:8px;" onclick="addActivityItem()">+ Adicionar Passeio</button>
+      </div>
+
+      <button class="btn btn-primary btn-full" style="margin-top:16px;" onclick="switchTabDirect('tab-share')">Próximo: Gerar Link →</button>
+    </div>
+
+    <!-- TAB 5: GERAR LINK & SHARE -->
+    <div class="tab-content" id="tab-share">
+      <h2 style="font-family:'Playfair Display'; margin-bottom: 8px; text-align:center;">Seu Convite está Pronto! 🎉</h2>
+      <p class="sub" style="text-align:center; margin-bottom:16px;">Gere o link abaixo e mande para quem você ama. Tudo vai abrir perfeito!</p>
+
+      <div class="buttons" style="margin-bottom:16px;">
+        <button class="btn btn-primary btn-full" onclick="generateLinkAndQR()">⚡ Gerar Link Personalizado</button>
+        <button class="btn btn-secondary btn-full" onclick="testCurrentInvite()">👁️ Testar / Visualizar Convite</button>
+      </div>
+
+      <div class="share-box" id="shareBoxResult" style="display:none;">
+        <label class="field-label">🔗 Seu Link Exclusivo</label>
+        <div class="url-input-group">
+          <input type="text" id="finalShareUrl" readonly />
+          <button class="btn btn-primary" style="min-height:auto; padding:10px 16px;" onclick="copyShareUrl()">Copiar</button>
+        </div>
+
+        <button class="btn btn-whatsapp" style="margin-top:10px; animation:none;" onclick="sendInviteViaWhatsApp()">
+          <span>Enviar direto pelo WhatsApp 📱</span>
+        </button>
+
+        <div style="margin-top:20px;">
+          <span class="field-label">📷 Ou apresente o QR Code:</span>
+          <div id="qrcode-canvas"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- MODO 2: EXPERIÊNCIA DO CONVITE (QUANDO ABRE O LINK)       -->
+  <!-- ========================================================= -->
+  <div id="inviteContainer" style="display:none;">
+
+    <!-- TELA 1: A PERGUNTA -->
+    <div class="screen active" id="screen1">
+      <div class="card">
+        <div class="sticker-container">
+          <img id="inv-img1" src="fotos/emoji_sad.png" class="sticker" alt="Sticker" />
+        </div>
+        <h1 id="inv-title1">ei... <em id="inv-name1">Pessoa Amada</em>, bora num date?</h1>
+        <p class="sub" id="inv-sub1">(tô perguntando sério 🥺)</p>
+        <div class="buttons">
+          <button class="btn btn-primary" id="btn-yes" onclick="goTo2()">sim!!! ✨</button>
+          <button id="btn-no">não</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TELA 2: DATA, HORA E ESCOLHA DE PASSEIOS (COMBINADA) -->
+    <div class="screen" id="screen2">
+      <div class="card">
+        <span class="card-emoji">📅</span>
+        <h1>quando & o que <em>vamos fazer</em>?</h1>
+        <p class="sub">Escolha a melhor data, horário e os passeios!</p>
+        
+        <div class="datetime-stack" style="margin-bottom:16px;">
+          <div class="field-group">
+            <span class="field-label">📆 Dia</span>
+            <input type="date" id="input-date" />
+          </div>
+          <div class="field-group">
+            <span class="field-label">🕐 Horário</span>
+            <input type="time" id="input-time" />
+          </div>
+        </div>
+
+        <div class="field-group" style="margin-bottom:12px; text-align:left;">
+          <span class="field-label">🎯 Escolha os Passeios:</span>
+          <div class="activities-list" id="inviteActivitiesList">
+            <!-- Renderizado via JS -->
+          </div>
+        </div>
+
+        <p class="error-msg" id="invite-error"></p>
+        <button class="btn btn-primary btn-full" onclick="confirmInviteChoice()">Confirmar Nosso Date! 🎉</button>
+      </div>
+    </div>
+
+    <!-- TELA 3: RESUMO & CONFIRMAÇÃO NO WHATSAPP -->
+    <div class="screen" id="screen3">
+      <div class="card">
+        <div class="sticker-container">
+          <img id="inv-imgFinal" src="fotos/lorax.png" class="sticker" alt="Sticker Final" />
+        </div>
+        <h1 class="final-title" id="inv-titleFinal">você é muito especial 💖</h1>
+        <p class="final-sub" id="inv-subFinal">tô esperando sua mensagem!! ✨</p>
+        <div class="final-details">
+          <div class="detail-row">
+            <span class="d-icon">📅</span>
+            <span><strong>Dia:</strong> <span id="final-date">—</span></span>
+          </div>
+          <div class="detail-row">
+            <span class="d-icon">🕐</span>
+            <span><strong>Horário:</strong> <span id="final-time">—</span></span>
+          </div>
+          <div class="detail-row">
+            <span class="d-icon">🎯</span>
+            <span><strong>O que vamos fazer:</strong><br /><span id="final-acts">—</span></span>
+          </div>
+        </div>
+
+        <a id="whatsapp-btn" href="#" target="_blank" class="btn-whatsapp">
+          <span>Enviar Confirmação no Whats 💕</span>
+        </a>
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- LÓGICA JAVASCRIPT PRINCIPAL                               -->
+  <!-- ========================================================= -->
+  <script>
+    // --- ESTADO & DADOS PADRÃO ---
+    let currentTheme = 'pink';
+    let uploadedImages = {
+      imgInitial: '',
+      imgFinal: ''
+    };
+
+    let defaultActivities = [
+      { id: 'comer', emoji: '🍔', text: 'Sair pra comer' },
+      { id: 'cinema', emoji: '🎬', text: 'Cinema' },
+      { id: 'macaquinhos', emoji: '🐒', text: 'Ver macaquinhos' },
+      { id: 'cachoeira', emoji: '💦', text: 'Cachoeira' },
+      { id: 'girassois', emoji: '🌻', text: 'Ver Mar de Girassóis' }
+    ];
+
+    let currentConfig = {
+      name: "",
+      sender: "",
+      phone: "",
+      title1: "ei... {nome}, bora num date?",
+      sub1: "(tô perguntando sério 🥺)",
+      titleFinal: "você é muito especial {nome} 💖",
+      subFinal: "tô esperando sua mensagem!! ✨",
+      imgInitial: "",
+      imgFinal: "",
+      theme: "pink",
+      activities: defaultActivities
+    };
+
+    // Emojis de fundo flutuantes
+    const emojis = ['❤️', '🌹', '💕', '💗', '💖', '🌸', '✨', '💝', '💫', '🩷'];
+    const bg = document.getElementById('heartsBg');
+    function spawnHeart() {
+      const el = document.createElement('span');
+      el.className = 'heart-particle';
+      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      el.style.left = Math.random() * 100 + 'vw';
+      const dur = 7 + Math.random() * 9;
+      el.style.animationDuration = dur + 's';
+      el.style.animationDelay = (Math.random() * -dur) + 's';
+      el.style.fontSize = (1.2 + Math.random() * 1.5) + 'rem';
+      bg.appendChild(el);
+      setTimeout(() => el.remove(), (dur + 2) * 1000);
+    }
+    for (let i = 0; i < 18; i++) spawnHeart();
+    setInterval(spawnHeart, 1100);
+
+    // --- INICIALIZAÇÃO DA PÁGINA ---
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const payload = urlParams.get('p') || urlParams.get('data') || window.location.hash.substring(1);
+
+      if (payload) {
+        // MODO CONVITE: Decodifica e exibe para quem recebeu
+        try {
+          let decodedJson = '';
+          if (window.LZString) {
+            decodedJson = LZString.decompressFromEncodedURIComponent(payload) || decodeURIComponent(escape(atob(payload)));
+          } else {
+            decodedJson = decodeURIComponent(escape(atob(payload)));
+          }
+          const parsed = JSON.parse(decodedJson);
+          currentConfig = { ...currentConfig, ...parsed };
+          startInviteMode(currentConfig);
+        } catch (e) {
+          console.error("Erro ao decodificar convite, carregando padrão:", e);
+          startInviteMode(currentConfig);
+        }
+      } else {
+        // MODO ESTÚDIO (Formulário na raiz)
+        initStudioForm();
+      }
+    });
+
+    // --- GERENCIADOR DE ABAS DO ESTÚDIO ---
+    function switchTab(tabId, ev) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+      if (ev && ev.target) ev.target.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    function switchTabDirect(tabId) {
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+      document.getElementById(tabId).classList.add('active');
+      const btnIndex = ['tab-couple', 'tab-activities', 'tab-share'].indexOf(tabId);
+      if (btnIndex >= 0) {
+        document.querySelectorAll('.tab-btn')[btnIndex].classList.add('active');
+      }
+    }
+
+    function selectTheme(theme) {
+      currentTheme = theme;
+      document.body.className = 'theme-' + theme;
+      document.querySelectorAll('.theme-opt').forEach(opt => {
+        opt.classList.toggle('selected', opt.classList.contains('theme-' + theme));
+      });
+    }
+
+    function toggleHateFields() {
+      const enabled = document.getElementById('cfg-hateEnabled').value === 'true';
+      document.getElementById('hateFieldsGroup').style.display = enabled ? 'block' : 'none';
+    }
+
+    // --- GERENCIADOR DE ATIVIDADES NO BUILDER ---
+    const availableEmojis = [
+      '🍔', '🍕', '🍣', '🍦', '🍷', '🍿', '☕', '🍫', '🥐', '🧋', '🍾', '🍩',
+      '🎬', '🐒', '💦', '🌻', '🏞️', '🏖️', '🎠', '🎳', '🏰', '🎡', '⛺', '🚲', '🥾',
+      '❤️', '💖', '🌹', '🕯️', '✨', '💍', '💌', '🎶', '🌌', '⭐', '🎈', '🎉',
+      '🎮', '👾', '🎲', '📚', '🎨', '🎤', '卍', '😱', '💣', '⏰', '🐍'
+    ];
+
+    function renderActivitiesBuilder() {
+      const container = document.getElementById('activitiesBuilderList');
+      container.innerHTML = '';
+      currentConfig.activities.forEach((act, index) => {
+        const item = document.createElement('div');
+        item.className = 'act-builder-item';
+        
+        let optionsHtml = availableEmojis.map(em => 
+          `<option value="${em}" ${act.emoji === em ? 'selected' : ''}>${em}</option>`
+        ).join('');
+        
+        if (!availableEmojis.includes(act.emoji)) {
+          optionsHtml = `<option value="${act.emoji}" selected>${act.emoji}</option>` + optionsHtml;
+        }
+
+        item.innerHTML = `
+          <select class="act-emoji-select" onchange="updateActivityItem(${index}, 'emoji', this.value)" style="width:75px; text-align:center; font-size:1.5rem; padding:8px 4px; border-radius:12px; background:rgba(255,255,255,0.08); border:1px solid var(--card-border); color:#fff; cursor:pointer;">
+            ${optionsHtml}
+          </select>
+          <input type="text" value="${act.text}" onchange="updateActivityItem(${index}, 'text', this.value)" placeholder="Nome da Atividade" />
+          <button class="btn-remove-act" onclick="removeActivityItem(${index})">✕</button>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function addActivityItem() {
+      currentConfig.activities.push({ id: 'act_' + Date.now(), emoji: '✨', text: 'Novo Passeio' });
+      renderActivitiesBuilder();
+    }
+
+    function updateActivityItem(index, key, value) {
+      currentConfig.activities[index][key] = value;
+    }
+
+    function removeActivityItem(index) {
+      if (currentConfig.activities.length <= 1) {
+        alert("Mantenha pelo menos uma atividade!");
+        return;
+      }
+      currentConfig.activities.splice(index, 1);
+      renderActivitiesBuilder();
+    }
+
+    // --- UPLOAD E COMPRESSÃO DE FOTOS EM CANVAS ---
+    function handleImageUpload(input, targetKey) {
+      if (!input.files || !input.files[0]) return;
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = new Image();
+        img.onload = function () {
+          const canvas = document.createElement('canvas');
+          const maxDim = 280; // Reduz tamanho da imagem para manter a URL curta
+          let w = img.width, h = img.height;
+          if (w > h) {
+            if (w > maxDim) { h *= maxDim / w; w = maxDim; }
+          } else {
+            if (h > maxDim) { w *= maxDim / h; h = maxDim; }
+          }
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.6);
+          uploadedImages[targetKey] = compressedBase64;
+          document.getElementById('preview-' + targetKey).src = compressedBase64;
+          
+          // Atualiza favicon dinamicamente se for foto do casal
+          updateDynamicMeta(document.getElementById('cfg-name').value, compressedBase64);
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function initStudioForm() {
+      document.getElementById('studioContainer').style.display = 'block';
+      document.getElementById('inviteContainer').style.display = 'none';
+
+      document.getElementById('cfg-name').value = currentConfig.name;
+      document.getElementById('cfg-sender').value = currentConfig.sender;
+      document.getElementById('cfg-phone').value = currentConfig.phone;
+      document.getElementById('cfg-title1').value = currentConfig.title1;
+      document.getElementById('cfg-sub1').value = currentConfig.sub1;
+
+      selectTheme(currentConfig.theme);
+      renderActivitiesBuilder();
+
+      updateDynamicMeta(currentConfig.name, uploadedImages.imgInitial || uploadedImages.imgFinal || "");
+    }
+
+    function setEmojiFavicon(emojiChar = '💕') {
+      const canvas = document.createElement('canvas');
+      canvas.width = 64; canvas.height = 64;
+      const ctx = canvas.getContext('2d');
+      ctx.font = '48px serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(emojiChar, 32, 36);
+      return canvas.toDataURL('image/png');
+    }
+
+    function updateDynamicMeta(name, photoUrl) {
+      if (name) {
+        document.title = `${name} 💕 Convite Especial`;
+      } else {
+        document.title = "Convite Romântico Especial 💕";
+      }
+
+      const favicon = document.getElementById('dynamicFavicon');
+      if (favicon) {
+        if (photoUrl) {
+          favicon.href = photoUrl;
+        } else {
+          favicon.href = 'fotos/favicon.png';
+        }
+      }
+    }
+
+    function applyPreset(type) {
+      if (type === 'movies') {
+        selectTheme('pink');
+        currentConfig.activities = [
+          { id: 'mequi', emoji: '🍔', text: 'Pedir Mequi / Hamburguer' },
+          { id: 'serie', emoji: '🍿', text: 'Maratona de Filme / Série' },
+          { id: 'doce', emoji: '🍫', text: 'Comer Doces na Cama' },
+          { id: 'fofoca', emoji: '🛋️', text: 'Ficar de Chamego & Fofocar' },
+          { id: 'massagem', emoji: '💆', text: 'Sessão de Massagem' }
+        ];
+      } else if (type === 'food') {
+        selectTheme('red');
+        currentConfig.activities = [
+          { id: 'rodizio', emoji: '🍕', text: 'Rodízio de Pizza com Borda Recheada' },
+          { id: 'sushi', emoji: '🍣', text: 'Festival de Sushi' },
+          { id: 'pastel', emoji: '🥟', text: 'Pastel & Caldo de Cana' },
+          { id: 'sorvete', emoji: '🍦', text: 'Sorvete / Açaí de Madrugada' },
+          { id: 'cafecolonial', emoji: '☕', text: 'Café da Manhã Caprichado' }
+        ];
+      } else if (type === 'drive') {
+        selectTheme('dark');
+        currentConfig.activities = [
+          { id: 'carro', emoji: '🚗', text: 'Rolezinho de Carro Sem Rumo' },
+          { id: 'musica', emoji: '🎶', text: 'Ouvir Nossas Músicas no Talas' },
+          { id: 'posto', emoji: '⛽', text: 'Parar no Posto 24h pra Lanchar' },
+          { id: 'cidade', emoji: '🌃', text: 'Ver as Luzes da Cidade' },
+          { id: 'madrugada', emoji: '🌌', text: 'Conversar de Madrugada' }
+        ];
+      } else if (type === 'geek') {
+        selectTheme('purple');
+        currentConfig.activities = [
+          { id: 'coop', emoji: '🎮', text: 'Jogar Co-op de 2 Players na TV' },
+          { id: 'arcade', emoji: '👾', text: 'Fliperama / Arcade' },
+          { id: 'board', emoji: '🎲', text: 'Jogos de Tabuleiro' },
+          { id: 'livraria', emoji: '📚', text: 'Visitar Livraria Geek' },
+          { id: 'pizza', emoji: '🍕', text: 'Pizza Fria no Outro Dia' }
+        ];
+      } else if (type === 'nature') {
+        selectTheme('emerald');
+        currentConfig.activities = [
+          { id: 'praia', emoji: '🌊', text: 'Pôr do Sol na Praia' },
+          { id: 'cachoeira', emoji: '💦', text: 'Banho de Cachoeira' },
+          { id: 'piquenique', emoji: '🧺', text: 'Piquenique com Frutas & Sucos' },
+          { id: 'trilha', emoji: '🥾', text: 'Caminhada no Parque' },
+          { id: 'luau', emoji: '⛺', text: 'Luau & Fogueira Noturna' }
+        ];
+      }
+      renderActivitiesBuilder();
+    }
+
+    // --- CODIFICAÇÃO E GERAÇÃO DE LINK ---
+    function collectStudioConfig() {
+      const cfg = {
+        name: document.getElementById('cfg-name').value.trim() || "Amor",
+        sender: document.getElementById('cfg-sender').value.trim() || "Eu",
+        phone: document.getElementById('cfg-phone').value.replace(/\D/g, '') || "5518997028899",
+        title1: document.getElementById('cfg-title1').value,
+        sub1: document.getElementById('cfg-sub1').value,
+        titleFinal: "você é muito lindo {nome} 💖",
+        subFinal: "tô esperando sua mensagem!! ✨",
+        theme: currentTheme,
+        activities: currentConfig.activities,
+        imgInitial: uploadedImages.imgInitial || "",
+        imgFinal: uploadedImages.imgFinal || ""
+      };
+      return cfg;
+    }
+
+    function generateLinkAndQR() {
+      const cfg = collectStudioConfig();
+      const jsonStr = JSON.stringify(cfg);
+      let encodedPayload = '';
+
+      if (window.LZString) {
+        encodedPayload = LZString.compressToEncodedURIComponent(jsonStr);
+      } else {
+        encodedPayload = btoa(unescape(encodeURIComponent(jsonStr)));
+      }
+
+      const baseUrl = window.location.origin + window.location.pathname;
+      const shareUrl = `${baseUrl}?p=${encodedPayload}`;
+
+      document.getElementById('finalShareUrl').value = shareUrl;
+      document.getElementById('shareBoxResult').style.display = 'block';
+
+      // QR Code
+      const qrContainer = document.getElementById('qrcode-canvas');
+      qrContainer.innerHTML = '';
+      if (window.QRCode) {
+        new QRCode(qrContainer, {
+          text: shareUrl,
+          width: 160,
+          height: 160,
+          colorDark: "#1a001a",
+          colorLight: "#ffffff"
+        });
+      }
+    }
+
+    function copyShareUrl() {
+      const input = document.getElementById('finalShareUrl');
+      input.select();
+      navigator.clipboard.writeText(input.value).then(() => {
+        alert("Link copiado com sucesso! 💕 Mande para a pessoa amada.");
+      }).catch(() => {
+        document.execCommand('copy');
+        alert("Link copiado! 💕");
+      });
+    }
+
+    function sendInviteViaWhatsApp() {
+      const shareUrl = document.getElementById('finalShareUrl').value;
+      const name = document.getElementById('cfg-name').value;
+      const msg = `oi ${name} 💕 abre esse link, preparei um convite especial pra você! ✨\n\n${shareUrl}`;
+      window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+    }
+
+    function testCurrentInvite() {
+      const cfg = collectStudioConfig();
+      document.getElementById('studioContainer').style.display = 'none';
+      document.getElementById('topCreatorBar').style.display = 'block';
+      startInviteMode(cfg);
+    }
+
+    function openStudioMode() {
+      document.getElementById('inviteContainer').style.display = 'none';
+      document.getElementById('topCreatorBar').style.display = 'none';
+      document.getElementById('studioContainer').style.display = 'block';
+    }
+
+    // =========================================================
+    // EXECUÇÃO DO CONVITE PERSONALIZADO (INTERATIVO)
+    // =========================================================
+    const selectedActivities = new Set();
+
+    function startInviteMode(config) {
+      document.getElementById('studioContainer').style.display = 'none';
+      document.getElementById('inviteContainer').style.display = 'block';
+
+      // Aplica tema
+      document.body.className = 'theme-' + (config.theme || 'pink');
+
+      // Aplica Título da Aba e Favicon com a foto da amada
+      const loverPhoto = config.imgInitial || config.imgFinal || "";
+      updateDynamicMeta(config.name || "Kauã", loverPhoto);
+
+      // Aplica Textos
+      const name = config.name || "Kauã";
+      const title1Text = (config.title1 || "ei... {nome}, bora num date?").replace('{nome}', name);
+      document.getElementById('inv-title1').innerHTML = title1Text.replace(name, `<em>${name}</em>`);
+      document.getElementById('inv-sub1').textContent = config.sub1 || "(tô perguntando sério 🥺)";
+
+      const titleFinalText = (config.titleFinal || "você é muito lindo {nome} 💖").replace('{nome}', name);
+      document.getElementById('inv-titleFinal').textContent = titleFinalText;
+      document.getElementById('inv-subFinal').textContent = config.subFinal || "tô esperando sua mensagem!! ✨";
+
+      // Aplica Imagens Customizadas
+      if (config.imgInitial) {
+        document.getElementById('inv-img1').src = config.imgInitial;
+        document.getElementById('inv-img1').className = 'sticker-photo';
+      }
+      if (config.imgFinal) {
+        document.getElementById('inv-imgFinal').src = config.imgFinal;
+        document.getElementById('inv-imgFinal').className = 'sticker-photo';
+      }
+
+      // Renderiza Atividades da Tela 4
+      const actContainer = document.getElementById('inviteActivitiesList');
+      actContainer.innerHTML = '';
+
+      (config.activities || defaultActivities).forEach((act) => {
+        const item = document.createElement('div');
+        item.className = 'activity-card';
+        item.id = 'act-' + act.id;
+        item.onclick = () => toggleActivity(act.id);
+        item.innerHTML = `
+          <span class="act-emoji">${act.emoji}</span>
+          <span class="act-name">${act.text}</span>
+        `;
+        actContainer.appendChild(item);
+      });
+
+      showScreen('screen1');
+    }
+
+    // --- LÓGICA DO BOTÃO QUE FOGE ("NÃO") ---
+    const noBtn = document.getElementById('btn-no');
+    const noPhrases = [
+      'não', 'por favor...', 'por favor... 🥺', 'por favorzinho...',
+      'vai sim né? ', 'vai sim amor', 'vamo caraio',
+      'última chance!', 'vai, por favor!', 'você vai, eu q mando',
+      'vc é mt lindo(a), sabia?', 'vai sim fio',
+    ];
+    let noIdx = 0, escaped = 0, hasEscaped = false;
+
+    function moveNoButton() {
+      if (!hasEscaped) {
+        const rect = noBtn.getBoundingClientRect();
+        document.body.appendChild(noBtn); 
+        noBtn.style.position = 'fixed';
+        noBtn.style.left = rect.left + 'px';
+        noBtn.style.top = rect.top + 'px';
+        noBtn.style.zIndex = '999999';
+        noBtn.style.background = 'rgba(255, 255, 255, 0.15)';
+        noBtn.style.border = '1px solid rgba(255, 255, 255, 0.4)';
+        hasEscaped = true;
+      }
+      escaped++;
+      noIdx = Math.min(noIdx + 1, noPhrases.length - 1);
+      noBtn.textContent = noPhrases[noIdx];
+      noBtn.style.transform = `scale(${Math.max(0.85, 1 - escaped * 0.02)})`;
+      noBtn.style.opacity = '1'; 
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const bw = noBtn.offsetWidth || 110;
+      const bh = noBtn.offsetHeight || 54;
+      const maxLeft = w - bw - 20;
+      const maxTop = h - bh - 20;
+      noBtn.style.left = (20 + Math.random() * (maxLeft - 20)) + 'px';
+      noBtn.style.top = (20 + Math.random() * (maxTop - 20)) + 'px';
+    }
+
+    noBtn.addEventListener('mouseenter', moveNoButton);
+    noBtn.addEventListener('touchstart', e => { e.preventDefault(); moveNoButton(); }, { passive: false });
+
+    // --- EFEITOS SONOROS SINTÉTICOS ---
+    let audioCtx = null;
+    function getCtx() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      return audioCtx;
+    }
+    function playPop() {
+      const ctx = getCtx();
+      const osc = ctx.createOscillator(), gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(520, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(320, ctx.currentTime + 0.12);
+      gain.gain.setValueAtTime(0.22, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+      osc.start(); osc.stop(ctx.currentTime + 0.18);
+    }
+    function playSim() {
+      const ctx = getCtx();
+      [0, 0.06, 0.12, 0.2].forEach((delay, i) => {
+        const osc = ctx.createOscillator(), gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime([523,659,784,1047][i], ctx.currentTime + delay);
+        gain.gain.setValueAtTime(0.18, ctx.currentTime + delay);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + 0.25);
+        osc.start(ctx.currentTime + delay); osc.stop(ctx.currentTime + delay + 0.25);
+      });
+    }
+    function playTick() {
+      const ctx = getCtx();
+      const osc = ctx.createOscillator(), gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(700, ctx.currentTime);
+      gain.gain.setValueAtTime(0.15, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.09);
+      osc.start(); osc.stop(ctx.currentTime + 0.09);
+    }
+    function playError() {
+      const ctx = getCtx();
+      const osc = ctx.createOscillator(), gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(220, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(160, ctx.currentTime + 0.18);
+      gain.gain.setValueAtTime(0.12, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.22);
+      osc.start(); osc.stop(ctx.currentTime + 0.22);
+    }
+
+    function burst() {
+      for (let i = 0; i < 18; i++) {
+        setTimeout(() => {
+          const s = document.createElement('span');
+          s.className = 'sparkle';
+          s.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+          s.style.fontSize = (1.2 + Math.random() * 1.6) + 'rem';
+          s.style.left = (8 + Math.random() * 84) + 'vw';
+          s.style.top = (8 + Math.random() * 84) + 'vh';
+          document.body.appendChild(s);
+          setTimeout(() => s.remove(), 950);
+        }, i * 50);
+      }
+    }
+
+    function showScreen(id) {
+      document.querySelectorAll('#inviteContainer .screen').forEach(s => s.classList.remove('active'));
+      const el = document.getElementById(id);
+      el.classList.add('active');
+      noBtn.style.display = (id === 'screen1') ? '' : 'none';
+    }
+
+    function goTo2() { playSim(); burst(); setTimeout(() => showScreen('screen2'), 260); }
+
+    function toggleActivity(key) {
+      playTick();
+      const card = document.getElementById('act-' + key);
+      if (selectedActivities.has(key)) {
+        selectedActivities.delete(key);
+        card.classList.remove('selected');
+      } else {
+        selectedActivities.add(key);
+        card.classList.add('selected');
+      }
+    }
+
+    function confirmInviteChoice() {
+      const dateVal = document.getElementById('input-date').value;
+      const timeVal = document.getElementById('input-time').value;
+      const err = document.getElementById('invite-error');
+
+      if (!dateVal || !timeVal) {
+        playError();
+        err.textContent = '⚠️ Escolha o dia e o horário!';
+        return;
+      }
+      if (selectedActivities.size === 0) {
+        playError();
+        err.textContent = '⚠️ Escolha pelo menos um passeio!';
+        return;
+      }
+
+      playPop();
+      err.textContent = '';
+
+      const [y, m, d] = dateVal.split('-');
+      const dateFormatted = `${d}/${m}/${y}`;
+      const timeFormatted = timeVal;
+
+      const chosenActs = (currentConfig.activities || defaultActivities)
+        .filter(act => selectedActivities.has(act.id));
+      
+      const actsListText = chosenActs.map(a => `${a.emoji} ${a.text}`).join(', ');
+
+      document.getElementById('final-date').textContent = dateFormatted;
+      document.getElementById('final-time').textContent = timeFormatted;
+      document.getElementById('final-acts').textContent = actsListText;
+
+      const senderName = currentConfig.sender || "Eu";
+      const msg = `oi ${senderName}! aceitei o convite 💕\n\n📅 nosso date é dia: ${dateFormatted}\n🕐 horário: ${timeFormatted}\n🎯 o que vamos fazer:\n- ${chosenActs.map(a => `${a.emoji} ${a.text}`).join('\n- ')}`;
+
+      const phone = (currentConfig.phone || "").replace(/\D/g, '');
+      const waUrl = `https://wa.me/${phone}?text=` + encodeURIComponent(msg);
+      document.getElementById('whatsapp-btn').href = waUrl;
+
+      burst();
+      setTimeout(() => showScreen('screen3'), 300);
+    }
+
+    document.getElementById('input-date').min = new Date().toISOString().split('T')[0];
+
+
+  </script>
+</body>
+
+</html>
